@@ -7,9 +7,9 @@ import (
 
 func main() {
 	res:=utils.Search(
-		"/SGRNJ06/randd/USER/liuzihao/randdScript/github/targetS/SeqSearch/test_data/test.fastq",
+		"../test_data/test.fastq",
 		"fastq",
-		"/SGRNJ06/randd/USER/liuzihao/randdScript/github/targetS/SeqSearch/test_data/target.fa",
+		"../test_data/target.fa",
 		"all",
 		2,
 		0,
