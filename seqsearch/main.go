@@ -1,25 +1,21 @@
 package main
 
 import (
-	"fmt"
+	//"fmt"
 	"seqsearch/utils"
 )
 
-
 func main() {
-	fa := "../test_data/test.fa"
-	fa_map, fa_name := utils.Fasta2Map(fa)
-
-	fmt.Println(fa_map)
-
-	finder := utils.FinderFactory(
-		fa_map,
-		fa_name,
-		1,
+	res:=utils.Search(
+		"/SGRNJ06/randd/USER/liuzihao/randdScript/github/targetS/SeqSearch/test_data/test.fastq",
+		"fastq",
+		"/SGRNJ06/randd/USER/liuzihao/randdScript/github/targetS/SeqSearch/test_data/target.fa",
+		"all",
+		2,
 		0,
-		100,
+		1000000,
 	)
-
-	fmt.Println(finder.Find("mmmmCCCCCCCmmmm", "first"))
-	fmt.Println(finder.Find("mmmmAAAAAAAAmmmm", "first"))
+	//fmt.Println(res)
+	//utils.WriteSearchRes(res,"./ANN.tsv")
+	utils.CountSearchRes("CC", res,"./out.tsv")
 }

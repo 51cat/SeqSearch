@@ -2,6 +2,7 @@ package utils
 
 import (
 	"fmt"
+	"strings"
 	//"strconv"
 )
 
@@ -47,7 +48,44 @@ func (f *Finder) Find(seq string, method string) string {
 
 
 func (f *Finder) findAll(seq string) string {
-	return ""
+	var seq_use string
+	var target_name_name_out []string
+	var locs []int
+
+	for _, target_name := range f.Fasta_name {
+		target_seq := f.Fasta_map[target_name]
+		
+		end := f.End + len(target_seq)
+		
+		if end >= len(seq){
+			end = len(seq)
+		}
+		
+		seq_use = seq[f.Start:end]
+		
+		switch {
+			case f.Mismatch == 0:
+				locs = KMPSearch(seq_use, target_seq, true)
+			
+			case f.Mismatch > 0:
+				locs = HMSearch(seq_use, target_seq,f.Mismatch, true)
+		}
+
+		if len(locs) == 0 {
+			continue
+		}else{
+			s := fmt.Sprintf("%s", target_name)
+			target_name_name_out = append(target_name_name_out, s)
+		}
+
+	}
+
+	switch {
+		case len(target_name_name_out) == 0: return "NULL"
+		case len(target_name_name_out) == 1: return target_name_name_out[0]
+		case len(target_name_name_out) > 1: return strings.Join(target_name_name_out,"|") 
+	}
+	return "NULL"
 }
 
 func (f *Finder) findFirst(seq string) string {
@@ -59,24 +97,25 @@ func (f *Finder) findFirst(seq string) string {
 		target_seq := f.Fasta_map[target_name]
 
 		end := f.End + len(target_seq)
-		if end >= len(target_seq){
+		
+		if end >= len(seq){
 			end = len(seq)
 		}
 		seq_use = seq[f.Start:end]
 		
-		if f.Mismatch == 0 {
+		switch {
+		case f.Mismatch == 0:
 			locs = KMPSearch(seq_use, target_seq, true)
-		}
-
-		if f.Mismatch > 0 {
-			locs = HMSearch(seq_use, target_seq, f.Mismatch, true) 
+		
+		case f.Mismatch > 0:
+			locs = HMSearch(seq_use, target_seq,f.Mismatch, true)
 		}
 
 		if len(locs) == 0 {
 			continue
 		}else {
-			return fmt.Sprintf("name:%s", target_name)
+			return fmt.Sprintf("%s", target_name)
 		}
 	}
-	return "name:NULL"
+	return "NULL"
 }
