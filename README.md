@@ -20,7 +20,8 @@ cd SeqSearch
     -format fastq \
     -target_fa ./test_data/target.fa \
     -out ./test_data/test_out.tsv \
-    -mismatch 2
+    -mismatch 2 \
+    -mode first
 ```
 
 # 详细使用步骤
