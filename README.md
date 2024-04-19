@@ -19,7 +19,8 @@ cd SeqSearch
     -input ./test_data/test.fastq \
     -format fastq \
     -target_fa ./test_data/target.fa \
-    -out ./test_data/test_out.tsv
+    -out ./test_data/test_out.tsv \
+    -mismatch 2
 ```
 
 # 详细使用步骤
